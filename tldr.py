@@ -4,6 +4,8 @@ import os
 from bs4 import BeautifulSoup
 import requests
 from dotenv import load_dotenv
+import time
+import math
 
 load_dotenv()
 
@@ -57,8 +59,13 @@ def summarize(text):
     summary = result.choices[0].message.content
     return summary
 
+def get_elapsed_time(initial_time):
+    return math.floor((time.time() - initial_time))
+
 
 def main():
+    start = time.time()
+    
     if len(sys.argv) < 2:
         print("Usage: python summarize.py <url>")
         sys.exit(1)
@@ -71,17 +78,17 @@ def main():
 
         summaries = []
 
-        print(f"Number of words: {len(main_text.split())}")
+        print(f"Number of words: {len(main_text.split())}\n")
 
         for count, chunk in enumerate(text_chunks):
             s = summarize(chunk)
-            print(f"***** summarizing chunk {count+1} of {len(text_chunks)}")
-            print(s)
+            print(f"***** summarized chunk {count+1} of {len(text_chunks)} at {get_elapsed_time(start)}s")
+            print(s + "\n")
             summaries.append(s)
 
         final_summary = summarize(' '.join(summaries))
 
-        print(f"***** Cumulative summary for {url}:")
+        print(f"***** Cumulative summary for {url} at {get_elapsed_time(start)}s:")
         print(final_summary)
     
     except Exception as e:
