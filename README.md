@@ -5,7 +5,7 @@ This is a command line tool that uses the openai chat api to summarize a webpage
 ## Setup
 
 ```bash
-$ cp .env.example .env
+$ cp .env-example .env
 ```
 
 Add your [API key](https://beta.openai.com/account/api-keys) to the newly created `.env` file.
